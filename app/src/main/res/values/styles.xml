@@ -8,4 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.Picker" parent="Theme.AppCompat.Light.DarkActionBar" >
+        <item name="android:textColorPrimary">@android:color/holo_orange_dark</item>
+    </style>
+
 </resources>

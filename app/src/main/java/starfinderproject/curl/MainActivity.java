@@ -1,6 +1,8 @@
 package starfinderproject.curl;
 
 import android.animation.ValueAnimator;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.renderscript.Sampler;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/t2rn.ttf");
+
+        final TextView dmglifetext = (TextView)findViewById(R.id.dmglifetext);
+        dmglifetext.setTextColor(Color.parseColor("#18CAE6"));
+        final TextView dmgsessiontext = (TextView)findViewById(R.id.dmgsessiontext);
+        dmgsessiontext.setTextColor(Color.parseColor("#18CAE6"));
+        dmglifetext.setTypeface(typeface);
+        dmgsessiontext.setTypeface(typeface);
         Button addsessiondmg = (Button)findViewById(R.id.addsessiondmg);
         addsessiondmg.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -42,18 +53,15 @@ public class MainActivity extends AppCompatActivity {
         Button clearsessiondmg = (Button)findViewById(R.id.clearsessiondmg);
         clearsessiondmg.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                TextView text = (TextView)findViewById(R.id.dmglifetext);
-                dmgtotal = startAddAnimation(dmgtotal,dmgsessiontotal,text);
-                text = (TextView)findViewById(R.id.dmgsessiontext);
-                dmgsessiontotal=startClearAnimation(dmgsessiontotal,text);
+                dmgtotal = startAddAnimation(dmgtotal,dmgsessiontotal,dmglifetext);
+                dmgsessiontotal=startClearAnimation(dmgsessiontotal,dmgsessiontext);
             }
         });
 
         Button cleartotaldmg = (Button)findViewById(R.id.cleartotaldmg);
         cleartotaldmg.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                TextView text = (TextView)findViewById(R.id.dmglifetext);
-                dmgtotal = startClearAnimation(dmgtotal,text);
+                dmgtotal = startClearAnimation(dmgtotal,dmglifetext);
             }
         });
 

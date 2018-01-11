@@ -31,9 +31,11 @@
                     android:id="@+id/dmgsessiontext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:height="30sp"
                     android:layout_alignParentLeft="true"
+                    android:gravity="right"
                     android:text="Session Total"
-                    android:background="#ffffff" />
+                    android:textSize="20sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -47,9 +49,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/dmgsessiontext"
                             android:layout_weight="1"
-                            android:text="Add"
-                            tools:layout_editor_absoluteX="16dp"
-                            tools:layout_editor_absoluteY="62dp" />
+                            android:text="Add" />
 
                         <Button
                             android:id="@+id/clearsessiondmg"
@@ -66,7 +66,7 @@
                             android:id="@+id/numberpicker"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="#ffffff">
+                            android:theme="@style/AppTheme.Picker">
                         </NumberPicker>
                     </LinearLayout>
                 </LinearLayout>
@@ -80,9 +80,11 @@
                     android:id="@+id/dmglifetext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:height="30sp"
+                    android:gravity="right"
                     android:layout_alignParentLeft="true"
                     android:text="Lifetime Total"
-                    android:background="#ffffff" />
+                    android:textSize="20sp" />
 
                 <Button
                     android:id="@+id/cleartotaldmg"
