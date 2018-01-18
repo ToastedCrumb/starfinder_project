@@ -9,9 +9,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RadialGradient;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.renderscript.Sampler;
 import android.support.v7.app.AlertDialog;
@@ -27,9 +29,9 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    protected int dmgsessiontotal = 0;
-    protected int dmgtotal = 0;
-    protected int toadd = 0;
+    protected int dmg_session_total = 0;
+    protected int dmg_total = 0;
+    protected int to_add = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +40,17 @@ public class MainActivity extends AppCompatActivity {
 
         //Setup text colour and font
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/mechsuit/Mechsuit.otf");
-        final TextView dmglifetext = (TextView) findViewById(R.id.dmglifetext);
-        dmglifetext.setTextColor(Color.parseColor("#18CAE6"));
-        dmglifetext.setTypeface(typeface);
+        final TextView dmg_life_text = (TextView) findViewById(R.id.dmg_life_text);
+        dmg_life_text.setTextColor(Color.parseColor("#18CAE6"));
+        dmg_life_text.setTypeface(typeface);
 
-        final TextView dmgsessiontext = (TextView) findViewById(R.id.dmgsessiontext);
-        dmgsessiontext.setTextColor(Color.parseColor("#18CAE6"));
-        dmgsessiontext.setTypeface(typeface);
+        final TextView dmg_session_text = (TextView) findViewById(R.id.dmg_session_text);
+        dmg_session_text.setTextColor(Color.parseColor("#18CAE6"));
+        dmg_session_text.setTypeface(typeface);
 
         //Add session damage on button press
-        Button addsessiondmg = (Button) findViewById(R.id.addsessiondmg);
-        addsessiondmg.setOnClickListener(new View.OnClickListener() {
+        Button add_session_dmg = (Button) findViewById(R.id.add_session_dmg);
+        add_session_dmg.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 //Open the number selector modal
                 numberSelector();
@@ -56,26 +58,26 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Clear session damage on button press
-        Button clearsessiondmg = (Button) findViewById(R.id.clearsessiondmg);
-        clearsessiondmg.setOnClickListener(new View.OnClickListener() {
+        Button clear_session_dmg = (Button) findViewById(R.id.clear_session_dmg);
+        clear_session_dmg.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 //Animate the value transition for both total and session damage. Transfer damage from session to total
-                dmgtotal = startAddAnimation(dmgtotal, dmgsessiontotal, dmglifetext);
-                dmgsessiontotal = startClearAnimation(dmgsessiontotal, dmgsessiontext);
+                dmg_total = startAddAnimation(dmg_total, dmg_session_total, dmg_life_text);
+                dmg_session_total = startClearAnimation(dmg_session_total, dmg_session_text);
             }
         });
 
         //Clear total damage on button press
-        Button cleartotaldmg = (Button) findViewById(R.id.cleartotaldmg);
-        cleartotaldmg.setOnClickListener(new View.OnClickListener() {
+        Button clear_total_dmg = (Button) findViewById(R.id.clear_total_dmg);
+        clear_total_dmg.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 //Animate the value transition for total. Modify total damage back to zero
-                dmgtotal = startClearAnimation(dmgtotal, dmglifetext);
+                dmg_total = startClearAnimation(dmg_total, dmg_life_text);
             }
         });
 
         //Play grunt headshot sound on button press
-        Button confetti = (Button) findViewById(R.id.confettibutton);
+        Button confetti = (Button) findViewById(R.id.confetti_button);
         final MediaPlayer mp = MediaPlayer.create(this, R.raw.confetti_sound);
         confetti.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +85,17 @@ public class MainActivity extends AppCompatActivity {
                 mp.start();
             }
         });
+
+        Button sleep = (Button) findViewById(R.id.sleep_button);
+        sleep.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                //Animate the value transition for both total and session damage. Transfer damage from session to total
+
+            }
+        });
+
+        ImageView star_1 = (ImageView) findViewById(R.id.star_1);
+        star_1.invalidate();
     }
 
     //Animation of text from one value to another
@@ -131,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         View v = inflater.inflate(R.layout.number_modal, null);
 
         // Optionally set some values in the view...
-        final NumberPicker guiQty = (NumberPicker) v.findViewById(R.id.numberpicker);
+        final NumberPicker guiQty = (NumberPicker) v.findViewById(R.id.number_picker);
         guiQty.setMinValue(1);
         guiQty.setMaxValue(20000);
         guiQty.setValue(1);
@@ -143,10 +156,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     //Add value and do transition animation on "OK" press
                     public void onClick(DialogInterface dialog, int id) {
-                        toadd = guiQty.getValue();
-                        TextView text = (TextView) findViewById(R.id.dmgsessiontext);
-                        dmgsessiontotal = startAddAnimation(dmgsessiontotal, toadd, text);
-                        Log.d("click",String.valueOf(toadd));
+                        to_add = guiQty.getValue();
+                        TextView text = (TextView) findViewById(R.id.dmg_session_text);
+                        dmg_session_total = startAddAnimation(dmg_session_total, to_add, text);
+                        Log.d("click",String.valueOf(to_add));
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

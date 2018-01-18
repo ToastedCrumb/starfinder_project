@@ -28,7 +28,7 @@
                     android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/dmgsessiontext"
+                    android:id="@+id/dmg_session_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end|center_vertical"
@@ -44,14 +44,14 @@
                         android:layout_weight="1">
 
                         <Button
-                            android:id="@+id/addsessiondmg"
+                            android:id="@+id/add_session_dmg"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Add" />
 
                         <Button
-                            android:id="@+id/clearsessiondmg"
+                            android:id="@+id/clear_session_dmg"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
                 <TextView
-                    android:id="@+id/dmglifetext"
+                    android:id="@+id/dmg_life_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end|center_vertical"
@@ -75,20 +75,62 @@
                     android:textSize="25sp" />
 
                 <Button
-                    android:id="@+id/cleartotaldmg"
+                    android:id="@+id/clear_total_dmg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/dmglifetext"
+                    android:layout_below="@id/dmg_life_text"
                     android:text="Clear" />
             </RelativeLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/sleep_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sleep"/>
+
+            <Button
+                android:id="@+id/freeze_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Freeze"/>
+
+            <Button
+                android:id="@+id/bleed_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Bleed"/>
+
+        </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent" />
+
+            <starfinderproject.curl.RotatingImageView
+                android:id="@+id/star_1"
+                android:layout_width="75sp"
+                android:layout_height="75sp"
+                />
+        </FrameLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/confettibutton"
+                    android:id="@+id/confetti_button"
                     android:layout_width="50pt"
                     android:layout_height="50pt"
                     android:background="@drawable/target_crosshairs"/>
