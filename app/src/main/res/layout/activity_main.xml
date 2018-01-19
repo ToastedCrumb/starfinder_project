@@ -8,9 +8,11 @@
     tools:context="starfinderproject.curl.MainActivity">
 
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,21 +29,21 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/dmg_session_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end|center_vertical"
-                    android:textAlignment="gravity"
-                    android:text="0"
-                    android:background="#000000"
-                    android:textSize="25sp" />
+                    <TextView
+                        android:id="@+id/dmg_session_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#000000"
+                        android:gravity="end|center_vertical"
+                        android:text="0"
+                        android:textAlignment="gravity"
+                        android:textSize="25sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
 
                         <Button
                             android:id="@+id/add_session_dmg"
@@ -55,7 +57,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Clear"/>
+                            android:text="Clear" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -64,14 +66,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
+
                 <TextView
                     android:id="@+id/dmg_life_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="end|center_vertical"
-                    android:textAlignment="gravity"
-                    android:text="0"
                     android:background="#000000"
+                    android:gravity="end|center_vertical"
+                    android:text="0"
+                    android:textAlignment="gravity"
                     android:textSize="25sp" />
 
                 <Button
@@ -87,53 +90,89 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/sleep_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Sleep"/>
+                android:text="Sleep" />
 
             <Button
                 android:id="@+id/freeze_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Freeze"/>
+                android:text="Freeze" />
 
             <Button
                 android:id="@+id/bleed_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Bleed"/>
+                android:text="Bleed" />
 
         </LinearLayout>
-        <FrameLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <android.support.v4.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent" />
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+
+            <starfinderproject.curl.RotatingImageView
+                android:id="@+id/star_2"
+                android:layout_width="75sp"
+                android:layout_height="75sp"
+                android:layout_gravity="right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v4.widget.Space
+                android:layout_width="20sp"
+                android:layout_height="wrap_content" />
 
             <starfinderproject.curl.RotatingImageView
                 android:id="@+id/star_1"
                 android:layout_width="75sp"
-                android:layout_height="75sp"
-                />
-        </FrameLayout>
+                android:layout_height="75sp" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="125sp"></Space>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/confetti_button"
-                    android:layout_width="50pt"
-                    android:layout_height="50pt"
-                    android:background="@drawable/target_crosshairs"/>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+
+            <starfinderproject.curl.RotatingImageView
+                android:id="@+id/star_3"
+                android:layout_width="75sp"
+                android:layout_height="75sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+
+            <Button
+                android:id="@+id/confetti_button"
+                android:layout_width="50pt"
+                android:layout_height="50pt"
+                android:background="@drawable/target_crosshairs" />
         </LinearLayout>
     </LinearLayout>
 

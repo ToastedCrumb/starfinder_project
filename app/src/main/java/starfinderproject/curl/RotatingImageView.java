@@ -12,6 +12,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
 
+import java.util.Random;
+
 /**
  * Created by lumber-zach on 18/01/18.
  */
@@ -27,18 +29,84 @@ public class RotatingImageView extends android.support.v7.widget.AppCompatImageV
     private int strokeWidthPx;
     private RectF rectF;
     private Rect rectSource;
+    private boolean isDrawn= false;
+    private int style = 0;
+
+
+    private long curTime;
+    private long elapsedTime;
+    private long lastTime;
 
     /** Simple constructor. */
     public RotatingImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
     }
 
-    private void init() {
+    public void init() {
         // The resource is embedded, but it can be easily moved in the constructor.
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.test_circle);
+        selectBitmap();
         //setImageBitmap(bitmap);
         // The same goes for the stroke width in dp.
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        if(!isDrawn){
+            return;
+        }
+        curTime = System.currentTimeMillis();
+        elapsedTime = curTime - lastTime;
+        lastTime = curTime;
+        if (elapsedTime < 0) {
+            elapsedTime = 0;
+        }
+        else if (elapsedTime > 200) {
+            elapsedTime = 200;
+        }
+        canvas.translate(canvas.getWidth()/2, canvas.getHeight()/2);
+        canvas.rotate(rotation(3));
+        float scaleFactor = scale(0.01f);
+        canvas.scale(scaleFactor, scaleFactor);
+        canvas.translate(-canvas.getWidth()/2, -canvas.getHeight()/2);
+        canvas.drawBitmap(bitmap,rectSource,rectF,null);
+    }
+
+    private float scale(float delta) {
+        scale = (scale + delta * directionScale);
+        if (scale <= 0) {
+            directionScale = 1;
+            scale = 0;
+            selectBitmap();
+        } else if (scale >= 0.5) {
+            directionScale = -1;
+            scale = 0.5f;
+        }
+        return scale;
+    }
+
+    private int rotation(int delta) {
+        rotationDegrees = (rotationDegrees + delta) % 360;
+        return rotationDegrees;
+    }
+
+    private void selectBitmap(){
+        style = new Random().nextInt(4);
+        switch(style){
+            case 0:
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.red_star);
+                break;
+            case 1:
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_star);
+                break;
+            case 2:
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.green_star);
+                break;
+            case 3:
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_star);
+                break;
+            default:
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.red_star);
+        }
         strokeWidthPx = (int) (STROKE_WIDTH_DP * getResources().getDisplayMetrics().density);
         int halfStrokeWidthPx = strokeWidthPx / 2;
 
@@ -49,41 +117,12 @@ public class RotatingImageView extends android.support.v7.widget.AppCompatImageV
         // Our color for the border.
         paintBorder.setColor(Color.BLUE);
 
-        int totalWidth = bitmap.getWidth() + strokeWidthPx * 2;
-        int totalHeight = bitmap.getHeight()  + strokeWidthPx * 2;
+        int totalWidth = bitmap.getWidth();
+        int totalHeight = bitmap.getHeight();
 
         // The rectangle that will be used for drawing the colored border.
-        rectF = new RectF(halfStrokeWidthPx, halfStrokeWidthPx, totalWidth - halfStrokeWidthPx, totalHeight - halfStrokeWidthPx);
+        rectF = new RectF(0,0, getWidth(), getHeight());
         rectSource = new Rect(0,0,totalWidth,totalHeight);
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        canvas.translate(canvas.getWidth()/2, canvas.getHeight()/2);
-        canvas.rotate(rotation(3));
-        float scaleFactor = scale(0.01f);
-        canvas.scale(scaleFactor, scaleFactor);
-        canvas.translate(-canvas.getWidth()/2, -canvas.getHeight()/2);
-        Log.d("Drawing","onDraw: ");
-        canvas.drawBitmap(bitmap,rectSource,rectF,null);
-        postInvalidateOnAnimation();
-        super.onDraw(canvas);
-    }
-
-    private float scale(float delta) {
-        scale = (scale + delta * directionScale);
-        if (scale <= 0) {
-            directionScale = 1;
-            scale = 0;
-        } else if (scale >= 1) {
-            directionScale = -1;
-            scale = 1;
-        }
-        return scale;
-    }
-
-    private int rotation(int delta) {
-        rotationDegrees = (rotationDegrees + delta) % 360;
-        return rotationDegrees;
+        isDrawn = true;
     }
 }

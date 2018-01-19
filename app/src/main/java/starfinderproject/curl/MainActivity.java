@@ -15,6 +15,7 @@ import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.media.Image;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.renderscript.Sampler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -32,7 +33,37 @@ public class MainActivity extends AppCompatActivity {
     protected int dmg_session_total = 0;
     protected int dmg_total = 0;
     protected int to_add = 0;
+    protected RotatingImageView star_1;
+    protected RotatingImageView star_2;
+    protected RotatingImageView star_3;
+    protected boolean start1 = false;
+    protected boolean start2 = false;
+    protected boolean start3 = false;
 
+    private Handler handler = new Handler();
+    private boolean bVisible = false;
+
+    private Runnable iter = new Runnable() {
+        public void run() {
+            scheduleNext();
+            if(star_1!=null){
+                star_1.invalidate();
+            }
+            if(star_2!=null){
+                star_2.invalidate();
+            }
+            if(star_3!=null){
+                star_3.invalidate();
+            }
+        }
+    };
+
+    private void scheduleNext(){
+        handler.removeCallbacks(iter);
+        if (bVisible) {
+            handler.postDelayed(iter, 1000/20);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,13 +75,18 @@ public class MainActivity extends AppCompatActivity {
         dmg_life_text.setTextColor(Color.parseColor("#18CAE6"));
         dmg_life_text.setTypeface(typeface);
 
-        final TextView dmg_session_text = (TextView) findViewById(R.id.dmg_session_text);
+        star_1 = (RotatingImageView)findViewById(R.id.star_1);
+        star_2 = (RotatingImageView)findViewById(R.id.star_2);
+        star_3 = (RotatingImageView)findViewById(R.id.star_3);
+
+                final TextView dmg_session_text = (TextView) findViewById(R.id.dmg_session_text);
         dmg_session_text.setTextColor(Color.parseColor("#18CAE6"));
         dmg_session_text.setTypeface(typeface);
 
         //Add session damage on button press
         Button add_session_dmg = (Button) findViewById(R.id.add_session_dmg);
         add_session_dmg.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View view) {
                 //Open the number selector modal
                 numberSelector();
@@ -60,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         //Clear session damage on button press
         Button clear_session_dmg = (Button) findViewById(R.id.clear_session_dmg);
         clear_session_dmg.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View view) {
                 //Animate the value transition for both total and session damage. Transfer damage from session to total
                 dmg_total = startAddAnimation(dmg_total, dmg_session_total, dmg_life_text);
@@ -70,9 +107,61 @@ public class MainActivity extends AppCompatActivity {
         //Clear total damage on button press
         Button clear_total_dmg = (Button) findViewById(R.id.clear_total_dmg);
         clear_total_dmg.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View view) {
                 //Animate the value transition for total. Modify total damage back to zero
                 dmg_total = startClearAnimation(dmg_total, dmg_life_text);
+            }
+        });
+
+        Button sleep = (Button)findViewById(R.id.sleep_button);
+        sleep.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                if(start1) {
+                    if (star_1.getVisibility() == View.VISIBLE) {
+                        star_1.setVisibility(View.INVISIBLE);
+                    } else {
+                        star_1.setVisibility(View.VISIBLE);
+                    }
+                }else{
+                    star_1.init();
+                    start1 = true;
+                }
+            }
+        });
+
+        Button bleed = (Button)findViewById(R.id.bleed_button);
+        bleed.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                if(start2) {
+                    if (star_2.getVisibility() == View.VISIBLE) {
+                        star_2.setVisibility(View.INVISIBLE);
+                    } else {
+                        star_2.setVisibility(View.VISIBLE);
+                    }
+                }else{
+                    star_2.init();
+                    start2 = true;
+                }
+            }
+        });
+
+        Button freeze = (Button)findViewById(R.id.freeze_button);
+        freeze.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                if(start3) {
+                    if (star_3.getVisibility() == View.VISIBLE) {
+                        star_3.setVisibility(View.INVISIBLE);
+                    } else {
+                        star_3.setVisibility(View.VISIBLE);
+                    }
+                }else{
+                    star_3.init();
+                    start3 = true;
+                }
             }
         });
 
@@ -85,17 +174,20 @@ public class MainActivity extends AppCompatActivity {
                 mp.start();
             }
         });
+    }
 
-        Button sleep = (Button) findViewById(R.id.sleep_button);
-        sleep.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                //Animate the value transition for both total and session damage. Transfer damage from session to total
+    @Override
+    public void onResume(){
+        super.onResume();
+        bVisible = true;
+        scheduleNext();
+    }
 
-            }
-        });
-
-        ImageView star_1 = (ImageView) findViewById(R.id.star_1);
-        star_1.invalidate();
+    @Override
+    public void onPause(){
+        super.onPause();
+        bVisible = false;
+        handler.removeCallbacks(iter);
     }
 
     //Animation of text from one value to another
@@ -174,4 +266,6 @@ public class MainActivity extends AppCompatActivity {
         // Display the modal.
         dlg2.show();
     }
+
+
 }
